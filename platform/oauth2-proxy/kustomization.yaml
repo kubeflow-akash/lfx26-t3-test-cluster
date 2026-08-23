@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Wave 2 — oauth2-proxy (m2m-dex-only overlay: correct for all non-KIND/EKS clusters, incl. OKE).
+resources:
+  - https://github.com/kubeflow/community-distribution//common/oauth2-proxy/overlays/m2m-dex-only?ref=26.03.1

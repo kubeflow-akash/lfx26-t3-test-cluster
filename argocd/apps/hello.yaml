@@ -3,8 +3,10 @@ kind: Application
 metadata:
   name: hello
   namespace: argocd            # Application CRs live where Argo CD runs
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"   # independent of the Kubeflow waves
 spec:
-  project: default             # AppProject; we'll create a restricted one in Phase 3
+  project: kubeflow            # now governed by the restricted AppProject
   source:
     repoURL: https://github.com/kubeflow-akash/lfx26-t3-test-cluster
     targetRevision: main       # branch, tag, or commit SHA — "what git state is truth"

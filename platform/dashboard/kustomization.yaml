@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Wave 4 — Central Dashboard bundle: centraldashboard + profile-controller/KFAM + PodDefaults webhooks.
+resources:
+  - https://github.com/kubeflow/community-distribution//applications/dashboard/overlays/istio?ref=26.03.1

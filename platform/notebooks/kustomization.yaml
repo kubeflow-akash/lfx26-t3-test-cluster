@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Wave 4 — Notebooks v1 bundle: notebook-controller, Jupyter web app, volumes web app,
+# PVC viewer, tensorboard controller + web app.
+resources:
+  - https://github.com/kubeflow/community-distribution//applications/notebooks-v1/overlays/istio?ref=26.03.1
+
+# The volumes web app spawns PVC-viewer pods at runtime from this env var; upstream's
+# value (filebrowser/filebrowser) is unqualified and would fail OKE's CRI-O short-name
+# enforcement the first time someone opens a volume viewer.
+patches:
+  - target:
+      kind: Deployment
+      name: volumes-web-app-deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: volumes-web-app-deployment
+      spec:
+        template:
+          spec:
+            containers:
+              - name: volumes-web-app
+                env:
+                  - name: VOLUME_VIEWER_IMAGE
+                    value: docker.io/filebrowser/filebrowser:v2.32.0

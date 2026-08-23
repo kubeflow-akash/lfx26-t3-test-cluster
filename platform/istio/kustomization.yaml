@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Wave 1 — Istio (sidecar mode) configured for oauth2-proxy auth.
+# cluster-local-gateway is omitted: it is only needed by Knative/KServe (not in core subset).
+resources:
+  - https://github.com/kubeflow/community-distribution//common/istio/istio-crds/base?ref=26.03.1
+  - https://github.com/kubeflow/community-distribution//common/istio/istio-namespace/base?ref=26.03.1
+  - https://github.com/kubeflow/community-distribution//common/istio/istio-install/overlays/oauth2-proxy?ref=26.03.1
+
+# Image-qualification audit (OKE CRI-O enforces fully-qualified names):
+# all real workload images are qualified (registry.istio.io/release/*). The one bare
+# "busybox:1.28" in the render is text inside the sidecar-injector ConfigMap's
+# `grpc-simple` template — only used by proxyless-gRPC injection, which Kubeflow
+# never requests. Harmless here; revisit if that template is ever enabled.

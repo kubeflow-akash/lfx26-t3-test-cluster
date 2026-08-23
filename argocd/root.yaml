@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  # No resources-finalizer here on purpose: deleting root must never cascade
+  # into the platform by accident.
+spec:
+  project: kubeflow
+  source:
+    repoURL: https://github.com/kubeflow-akash/lfx26-t3-test-cluster
+    targetRevision: main
+    path: argocd/apps          # app-of-apps: this dir contains only Application CRs
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    # Manual sync, no prune: removing an app file from git only marks the child
+    # Application "requires pruning" — deletion stays a deliberate two-step act.
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 1m

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Wave 4 — Kubeflow Pipelines, multi-user, cert-manager-backed (SeaweedFS as object storage).
+resources:
+  - https://github.com/kubeflow/community-distribution//applications/pipeline/overlays?ref=26.03.1
+
+# OKE's CRI-O enforces fully-qualified image names; upstream ships these two unqualified.
+images:
+  - name: mysql
+    newName: docker.io/library/mysql
+  - name: chrislusf/seaweedfs
+    newName: docker.io/chrislusf/seaweedfs
