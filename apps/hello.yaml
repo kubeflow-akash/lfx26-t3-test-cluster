@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello
+  namespace: argocd            # Application CRs live where Argo CD runs
+spec:
+  project: default             # AppProject; we'll create a restricted one in Phase 3
+  source:
+    repoURL: https://github.com/kubeflow-akash/lfx26-t3-test-cluster
+    targetRevision: main       # branch, tag, or commit SHA — "what git state is truth"
+    path: apps/hello           # folder to render; Argo CD auto-detects kustomize
+  destination:
+    server: https://kubernetes.default.svc   # "this same cluster"
+    namespace: hello           # where the rendered resources go
+  syncPolicy:                  # NOTE: no `automated:` block => MANUAL sync
+    syncOptions:
+      - CreateNamespace=true   # sync may create the target namespace
