@@ -1,2 +1,1 @@
-# GSOC-2026
-https://cloud.oracle.com/containers/clusters/ocid1.cluster.oc1.iad.aaaaaaaa3qa43fnn4qaukw3ussnwlyngl4urrm65ut7dnlclocyadjug4daa?region=us-ashburn-1
+Cluster URL: https://cloud.oracle.com/containers/clusters/ocid1.cluster.oc1.iad.aaaaaaaaejqldnhqdjkzd366aey7prmf65i7hk75cnhwuchwpcpr53ata63a/details?region=us-ashburn-1
